@@ -93,7 +93,9 @@ git -c user.name="$(whoami)" -c user.email="$(whoami)@local" commit -m "更新�
 echo "==> 推送到 GitHub…"
 FORCE_FLAG=""
 if [ "$PUSH_FORCE" = "1" ]; then FORCE_FLAG="--force"; fi
-git push --quiet $FORCE_FLAG "https://x-access-token:${TOKEN}@github.com/${REPO}.git" HEAD:main
+# 国内网络直连 GitHub 时 HTTP/2 容易报 "HTTP2 framing layer" 错误，强制走 HTTP/1.1
+git -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push --quiet $FORCE_FLAG \
+  "https://x-access-token:${TOKEN}@github.com/${REPO}.git" HEAD:main
 
 # 5. 开启或更新 GitHub Pages（main 分支 /docs 目录）
 echo "==> 配置 GitHub Pages…"
