@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>探针</title>
+    <style>
+      body { background: #fff; color: #222; font-family: sans-serif; padding: 32px; }
+      .ok { color: #0a7d3b; font-weight: bold; }
+      .err { color: #c22; font-weight: bold; }
+    </style>
+  </head>
+  <body>
+    <p>1. HTML 已加载 ✓</p>
+    <p id="js">2. 等待 JavaScript…</p>
+    <p id="css" class="err">3. 等待样式检查…</p>
+    <script>
+      try {
+        document.getElementById('js').textContent = '2. JavaScript 正常 ✓ ' + new Date().toLocaleTimeString()
+        document.getElementById('css').textContent = '3. 本地时间：' + new Date().toString()
+      } catch (e) {
+        document.getElementById('js').textContent = '2. JavaScript 报错：' + e.message
+      }
+      window.addEventListener('error', function (e) {
+        var el = document.createElement('p')
+        el.className = 'err'
+        el.textContent = '4. 运行时错误：' + e.message
+        document.body.appendChild(el)
+      })
+    </script>
+  </body>
+</html>

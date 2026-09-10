@@ -1,0 +1,5 @@
+node_modules
+dist
+standalone/.tmp
+.DS_Store
+*.local
